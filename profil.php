@@ -109,7 +109,7 @@ if (empty($_SESSION['status_login'])) {
 
     <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-            <a href="index.php" class="nav-link active " >
+            <a href="index.php" class="nav-link  " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Data Peserta Didik
               </p>
@@ -120,7 +120,7 @@ if (empty($_SESSION['status_login'])) {
 
           <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-          <a href="profil.php" class="nav-link" >
+          <a href="profil.php" class="nav-link active" >
               <i class="nav-icon fas fa-home"></i>
               <p>Profil Sekolah
               </p>
@@ -150,7 +150,7 @@ if (empty($_SESSION['status_login'])) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Kelulusan Peserta Didik</h1>
+            <h1>Profil Sekolah</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -163,14 +163,16 @@ if (empty($_SESSION['status_login'])) {
     </section>
 
     <!-- Main content -->
+
+    
     <section class="content">
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Tambahkan Data Peserta Didik</h3>
+              <h3 class="card-title">Profil Kelas</h3>
                <br>
-              <a class="btn btn-primary " href="add.php" role="button" >Tambah Data </a>  
+             <a class="btn btn-primary " href="kelas.php" role="button" >Tambah Kelas </a>
             </div>
  
             <!-- /.card-header -->
@@ -179,34 +181,27 @@ if (empty($_SESSION['status_login'])) {
                 <thead>
                 <tr>
                   <th>NO</th>
-                  <th>Nama Lengkap</th>
-                  <th>NISN</th>
-                  <th>Kelas</th>
-                       <th>Angkatan</th>
-                   <th>Keterangan</th>
-                 <th>Edit</th>
+                  <th>Kelas/Jurusan</th>
+                 
+                 
                    <th>Hapus</th>
                   
                 </tr>
                 </thead>
                 <tbody>
-                   <?php  
+                        <?php  
             include "../koneksi.php";
   $no=1;
-  $query = "SELECT * FROM daftar"; // Query untuk menampilkan semua data siswa
+  $query = "SELECT * FROM kelas"; // Query untuk menampilkan semua data siswa
   $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
   
   while($data = mysqli_fetch_array($sql)){ // Ambil semua data dari hasil eksekusi $sql
     echo "<tr>";
    echo "<td>".$no++."</td>";
-    echo "<td>".$data['nama']."</td>";
-    echo "<td>".$data['nisn']."</td>";
     echo "<td>".$data['kelas']."</td>";
-    echo "<td>".$data['angkatan']."</td>";
-    echo "<td>".$data['ket']."</td>";
+   
   
-     echo "<td><a class='btn btn-primary' href='edit.php?id=".$data['id']."' role='button' >Edit </a></td>"; 
-     echo "<td><a class='btn btn-danger' href='hapus.php?id=".$data['id']."' role='button' >Hapus </a></td>"; 
+     echo "<td><a class='btn btn-danger' href='hapusk.php?id=".$data['id']."' role='button' >Hapus </a></td>"; 
     
 
     echo "</tr>";
@@ -216,15 +211,79 @@ if (empty($_SESSION['status_login'])) {
                 </tfoot>
               </table>
             </div>
-      </div><!-- /.container-fluid -->
+      </div>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Profil Sekolah</h3>
+               <br>
+             
+            </div>
+ 
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-hover text-center table-responsive-lg">
+                <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>Username</th>
+                  <th>Password</th>
+                  <th>Nama Sekolah</th>
+                   <th>Kabupaten/Kota</th>
+                    <th>Alamat Lengkap Sekolah</th>
+                    <th>Nama Kepala Sekolah</th>
+                     <th>Token Lupa Password</th>
+                     <th>Logo</th>
+                 
+                   <th>Ubah</th>
+                  
+                </tr>
+                </thead>
+                <tbody>
+                      <?php  
+            include "../koneksi.php";
+  $no=1;
+  $query = "SELECT * FROM profil"; // Query untuk menampilkan semua data siswa
+  $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
+  
+  while($data = mysqli_fetch_array($sql)){ // Ambil semua data dari hasil eksekusi $sql
+    echo "<tr>";
+   echo "<td>".$no++."</td>";
+    echo "<td>".$data['user']."</td>";
+    echo "<td>".$data['pass']."</td>";
+    echo "<td>".$data['sekolah']."</td>";
+    echo "<td>".$data['kabupaten']."</td>";
+    echo "<td>".$data['alamat']."</td>";
+    echo "<td>".$data['kepala']."</td>";
+     echo "<td>".$data['token']."</td>";
+       echo "<td><img src='images/".$data['foto']."' width='50' height='50'></td>";
+
+ echo "<td><a class='btn btn-primary' href='ubahprofil.php?id=".$data['id']."' role='button' >Ubah </a></td>"; 
+
+    echo "</tr>";
+    }
+  ?>
+               
+                </tfoot>
+              </table>
+            </div>
+      </div>
+
+
+      <!-- /.container-fluid -->
+         
+      <!-- /.container-fluid -->
+      
     </section>
     <!-- /.content -->
   </div>
+</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>    <strong>tim Coding@ Luthfi,Mubin,Salim,Mabsur | Ilmu Komputer</strong>
+    <strong>tim Coding @Luthfi,@Mubin,@Salim,@Mabsur | Ilmu Komputer</strong>
    
     </div>
+
   </footer>
 
   <!-- Control Sidebar -->

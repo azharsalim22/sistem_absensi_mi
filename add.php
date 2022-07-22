@@ -163,66 +163,90 @@ if (empty($_SESSION['status_login'])) {
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Tambahkan Data Peserta Didik</h3>
-               <br>
-              <a class="btn btn-primary " href="add.php" role="button" >Tambah Data </a>  
-            </div>
- 
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example1" class="table table-bordered table-hover text-center table-responsive-sm">
-                <thead>
-                <tr>
-                  <th>NO</th>
-                  <th>Nama Lengkap</th>
-                  <th>NISN</th>
-                  <th>Kelas</th>
-                       <th>Angkatan</th>
-                   <th>Keterangan</th>
-                 <th>Edit</th>
-                   <th>Hapus</th>
-                  
-                </tr>
-                </thead>
-                <tbody>
-                   <?php  
-            include "../koneksi.php";
-  $no=1;
-  $query = "SELECT * FROM daftar"; // Query untuk menampilkan semua data siswa
-  $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
-  
-  while($data = mysqli_fetch_array($sql)){ // Ambil semua data dari hasil eksekusi $sql
-    echo "<tr>";
-   echo "<td>".$no++."</td>";
-    echo "<td>".$data['nama']."</td>";
-    echo "<td>".$data['nisn']."</td>";
-    echo "<td>".$data['kelas']."</td>";
-    echo "<td>".$data['angkatan']."</td>";
-    echo "<td>".$data['ket']."</td>";
-  
-     echo "<td><a class='btn btn-primary' href='edit.php?id=".$data['id']."' role='button' >Edit </a></td>"; 
-     echo "<td><a class='btn btn-danger' href='hapus.php?id=".$data['id']."' role='button' >Hapus </a></td>"; 
-    
-
-    echo "</tr>";
-    }
-  ?>
+  <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Input Data Siswa</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="post" action="padd.php" enctype="multipart/form-data">
+                <div class="card-body">             
                
-                </tfoot>
-              </table>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap" autocomplete="off" required=""> 
+                  </div>
+
+             <div class="form-group">
+                    <label for="exampleInputEmail1">NISN</label>
+                    <input type="number" class="form-control" id="nisn" name="nisn" placeholder="NISN" autocomplete="off" required=""> 
+                  </div>
+<?php
+
+  require_once '../koneksi.php';
+
+  $query = "SELECT * FROM kelas ORDER BY id DESC";
+
+  $result = mysqli_query($connect, $query);
+
+ ?>
+                   <div class="form-group">
+                    <div class="col-md-12">
+                    <label for="exampleInputEmail1">Kelas/ Jurusan</label>
+ <select class="form-control" id="kelas" name="kelas" required="">
+<option disabled="">-Pilih Guru BK-</option>
+   <?php while($data = mysqli_fetch_assoc($result) ){?>
+
+    <option value="<?php echo $data['kelas']; ?>"><?php echo $data['kelas']; ?></option>
+
+   <?php } ?>
+
+  </select>
+</div>
+</div>
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Lulus Tahun Pelajaran</label>
+
+                    <input type="text" class="form-control" id="angkatan" name="angkatan" value="   <?php 
+      $sekarang= date('Y');
+$selanjutnya=$sekarang+1;
+echo "$sekarang/$selanjutnya";
+
+                   ?>" autocomplete="off" required=""> 
+                  </div>
+                
+                     <div class="form-group">
+                    <label for="exampleInputEmail1">Keterangan</label>
+                    <select class="form-control" id="ket" name="ket">
+                      <option disabled="">Pilih Keterangan</option>
+                      <option value="Lulus">Lulus</option>
+                      <option value="Tidak Lulus">Tidak Lulus</option>
+
+               
+                    </select>
+                  </div>   
+                    
+                    
+                <!-- /.card-body -->
+</div>
+                <div class="card-footer">
+                  <button type="submit" value="Simpan" class="btn btn-primary">Tambah Siswa</button>
+                  <a class="btn btn-danger " href="index.php" role="button" >Kembali </a>
+                </div>
+              </form>
             </div>
-      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>    <strong>tim Coding@ Luthfi,Mubin,Salim,Mabsur | Ilmu Komputer</strong>
+    <strong>Developer Tata Kustara | Template AdminLTE.io</strong>
    
     </div>
   </footer>
@@ -248,18 +272,6 @@ if (empty($_SESSION['status_login'])) {
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
-</script>
+
 </body>
 </html>

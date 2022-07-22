@@ -109,7 +109,7 @@ if (empty($_SESSION['status_login'])) {
 
     <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-            <a href="index.php" class="nav-link active " >
+            <a href="index.php" class="nav-link  " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Data Peserta Didik
               </p>
@@ -120,7 +120,7 @@ if (empty($_SESSION['status_login'])) {
 
           <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-          <a href="profil.php" class="nav-link" >
+          <a href="profil.php" class="nav-link active" >
               <i class="nav-icon fas fa-home"></i>
               <p>Profil Sekolah
               </p>
@@ -150,11 +150,11 @@ if (empty($_SESSION['status_login'])) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Kelulusan Peserta Didik</h1>
+            <h1>Profil Sekolah</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="Index.php">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
             
             </ol>
           </div>
@@ -163,66 +163,42 @@ if (empty($_SESSION['status_login'])) {
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Tambahkan Data Peserta Didik</h3>
-               <br>
-              <a class="btn btn-primary " href="add.php" role="button" >Tambah Data </a>  
-            </div>
- 
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example1" class="table table-bordered table-hover text-center table-responsive-sm">
-                <thead>
-                <tr>
-                  <th>NO</th>
-                  <th>Nama Lengkap</th>
-                  <th>NISN</th>
-                  <th>Kelas</th>
-                       <th>Angkatan</th>
-                   <th>Keterangan</th>
-                 <th>Edit</th>
-                   <th>Hapus</th>
+  <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Input Data Kelas</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="post" action="pkelas.php" enctype="multipart/form-data">
+                <div class="card-body">             
                   
-                </tr>
-                </thead>
-                <tbody>
-                   <?php  
-            include "../koneksi.php";
-  $no=1;
-  $query = "SELECT * FROM daftar"; // Query untuk menampilkan semua data siswa
-  $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
-  
-  while($data = mysqli_fetch_array($sql)){ // Ambil semua data dari hasil eksekusi $sql
-    echo "<tr>";
-   echo "<td>".$no++."</td>";
-    echo "<td>".$data['nama']."</td>";
-    echo "<td>".$data['nisn']."</td>";
-    echo "<td>".$data['kelas']."</td>";
-    echo "<td>".$data['angkatan']."</td>";
-    echo "<td>".$data['ket']."</td>";
-  
-     echo "<td><a class='btn btn-primary' href='edit.php?id=".$data['id']."' role='button' >Edit </a></td>"; 
-     echo "<td><a class='btn btn-danger' href='hapus.php?id=".$data['id']."' role='button' >Hapus </a></td>"; 
-    
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nama Kelas / Keterangan Jurusan/Lainnya</label>
+                    <input type="text" class="form-control" id="kelas" name="kelas" placeholder="Misal :   XI / IX A /XII Jurusan IPS" autocomplete="off" required=""> 
+                  </div>
 
-    echo "</tr>";
-    }
-  ?>
-               
-                </tfoot>
-              </table>
+          
+                    
+                <!-- /.card-body -->
+</div>
+                <div class="card-footer">
+                  <button type="submit" value="Simpan" class="btn btn-primary">Tambah Kelas</button>
+                  <a class="btn btn-danger " href="profil.php" role="button" >Kembali </a>
+                </div>
+              </form>
             </div>
-      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>    <strong>tim Coding@ Luthfi,Mubin,Salim,Mabsur | Ilmu Komputer</strong>
+    <strong>tim Coding@ Luthfi,Mubin,Salim,Mabsura | Ilmu Komputer</strong>
    
     </div>
   </footer>
@@ -248,18 +224,6 @@ if (empty($_SESSION['status_login'])) {
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
-</script>
+
 </body>
 </html>

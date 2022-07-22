@@ -109,7 +109,7 @@ if (empty($_SESSION['status_login'])) {
 
     <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-            <a href="index.php" class="nav-link active " >
+            <a href="index.php" class="nav-link  " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Data Peserta Didik
               </p>
@@ -120,7 +120,7 @@ if (empty($_SESSION['status_login'])) {
 
           <li class="nav-item has-treeview menu-open">
            <li class="nav-item">
-          <a href="profil.php" class="nav-link" >
+          <a href="profil.php" class="nav-link active" >
               <i class="nav-icon fas fa-home"></i>
               <p>Profil Sekolah
               </p>
@@ -163,66 +163,90 @@ if (empty($_SESSION['status_login'])) {
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Tambahkan Data Peserta Didik</h3>
-               <br>
-              <a class="btn btn-primary " href="add.php" role="button" >Tambah Data </a>  
-            </div>
- 
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example1" class="table table-bordered table-hover text-center table-responsive-sm">
-                <thead>
-                <tr>
-                  <th>NO</th>
-                  <th>Nama Lengkap</th>
-                  <th>NISN</th>
-                  <th>Kelas</th>
-                       <th>Angkatan</th>
-                   <th>Keterangan</th>
-                 <th>Edit</th>
-                   <th>Hapus</th>
-                  
-                </tr>
-                </thead>
-                <tbody>
-                   <?php  
-            include "../koneksi.php";
-  $no=1;
-  $query = "SELECT * FROM daftar"; // Query untuk menampilkan semua data siswa
-  $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
+  <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Input Data Siswa</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <?php
+  // Load file koneksi.php
+  include "../koneksi.php";
   
-  while($data = mysqli_fetch_array($sql)){ // Ambil semua data dari hasil eksekusi $sql
-    echo "<tr>";
-   echo "<td>".$no++."</td>";
-    echo "<td>".$data['nama']."</td>";
-    echo "<td>".$data['nisn']."</td>";
-    echo "<td>".$data['kelas']."</td>";
-    echo "<td>".$data['angkatan']."</td>";
-    echo "<td>".$data['ket']."</td>";
-  
-     echo "<td><a class='btn btn-primary' href='edit.php?id=".$data['id']."' role='button' >Edit </a></td>"; 
-     echo "<td><a class='btn btn-danger' href='hapus.php?id=".$data['id']."' role='button' >Hapus </a></td>"; 
-    
+  // Ambil data NIS yang dikirim oleh index.php melalui URL
+  $id = $_GET['id'];
 
-    echo "</tr>";
-    }
+  // Query untuk menampilkan data siswa berdasarkan NIS yang dikirim
+  $query = "SELECT * FROM  profil WHERE id='".$id."'";
+  $sql = mysqli_query($connect, $query);  // Eksekusi/Jalankan query dari variabel $query
+  $data = mysqli_fetch_array($sql); // Ambil data dari hasil eksekusi $sql
   ?>
+              <form method="post" action="pprofil.php?id=<?php echo $id; ?>" enctype="multipart/form-data">
+                <div class="card-body">             
                
-                </tfoot>
-              </table>
+                  
+             <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" class="form-control" id="user" name="user" autocomplete="off" value="<?php echo $data['user']; ?>" > 
+                  </div>
+
+           <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="text" class="form-control" id="pass" name="pass" autocomplete="off"  value="<?php echo $data['pass']; ?>"> 
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nama Sekolah</label>
+                    <input type="text" class="form-control" id="sekolah" name="sekolah" autocomplete="off"  value="<?php echo $data['sekolah']; ?>">
+                    <p>Format form ini diwajibkan menggunakan kapital misal : SMP BUSTANUL FALAH</p> 
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Kabupaten / Kota</label>
+                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="<?php echo $data['kabupaten']; ?>" autocomplete="off"> 
+                    <p>Format form ini diwajibkan menggunakan kapital dan mengawalai kata dengan  kabupaten/kota, misal : KOTA TEGAL / KABUPATEN TEGAL</p>
+                  </div>
+
+<div class="form-group">
+                    <label for="exampleInputEmail1">Alamat Sekolah</label>
+                    <input type="text" class="form-control" id="alamat" name="alamat" value="<?php echo $data['alamat']; ?>" autocomplete="off"> 
+                  </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Kepala Sekolah</label>
+                    <input type="text" class="form-control" id="kepala" name="kepala" value="<?php echo $data['kepala']; ?>" autocomplete="off"> 
+                  </div>
+                   <div class="form-group">
+                    <label for="exampleInputEmail1">Token Lupa Password</label>
+                    <input type="text" class="form-control" id="token" name="token" value="<?php echo $data['token']; ?>" > 
+                    <p>Token digunakan apabila lupa password, Mohon gunakan token mudah di ingat</p>
+                  </div>
+
+                    <div class="form-group">
+  <td>Ubah Logo</td>
+  <br>
+    <td>
+      <input type="file" name="foto">
+      <br>
+    </div>
+      <input type="checkbox" name="ubah_foto" value="true">Wajib ceklis terlebih dahulu jika ingin mengubah logo<br>
+    </td>
+                    </div>
+                <div class="card-footer">
+                  <button type="submit" value="Simpan" class="btn btn-primary">Ubah Data</button>
+                  <a class="btn btn-danger " href="profil.php" role="button" >Kembali </a>
+                </div>
+              </form>
             </div>
-      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>    <strong>tim Coding@ Luthfi,Mubin,Salim,Mabsur | Ilmu Komputer</strong>
+    <strong>tim Coding @Luthfi,@Mubin,@Salim,@Mabsur | Ilmu Komputer</strong>
    
     </div>
   </footer>
@@ -248,18 +272,6 @@ if (empty($_SESSION['status_login'])) {
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
-</script>
+
 </body>
 </html>
