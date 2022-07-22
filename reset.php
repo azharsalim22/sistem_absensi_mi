@@ -1,25 +1,6 @@
-<?php
-include '../koneksi.php';
-session_start();
+ <?php  
+ include("../koneksi.php"); 
 
-$login = @$_POST ['login'];
-if (isset($login)) {
-$user =mysqli_escape_string($connect,$_POST['user']);
-$pass = mysqli_escape_string($connect,$_POST['pass']);
-
-$query = mysqli_query($connect,"SELECT * FROM profil WHERE user ='$user' AND pass ='$pass'");
-$num = mysqli_num_rows($query);
-$data = mysqli_fetch_array($query);
-if ($num >=1) {
-  $_SESSION['login'] = $data['sekolah'];
-  session_start();
-  $_SESSION['status_login']="sudah_login";
-  header('location:../admin');
-    }
-    else {
-      header("location:notif.php");
-    }
-  }
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +38,7 @@ if ($num >=1) {
 		<div class="container-login100">
 			<div class="wrap-login100">
 				
-				<form class="login100-form validate-form" action="" method="POST">
+				<form class="login100-form validate-form" action="" method="GET">
 					<center><?php
   // Load file koneksi.php
   include "../koneksi.php";
@@ -89,30 +70,22 @@ if ($num >=1) {
 					</span>
 					
 					
-					<div class="wrap-input100 validate-input" data-validate = "Masukan Username">
-						<input class="input100" type="text" name="user" autocomplete="off">
+					<div class="wrap-input100 validate-input" data-validate = "Masukan Token">
+						<input class="input100" type="number" name="no" autocomplete="off">
 						<span class="focus-input100"></span>
-						<span class="label-input100">Username</span>
+						<span class="label-input100">Masukan Token Untuk Reset</span>
 					</div>
 					
 					
-					<div class="wrap-input100 validate-input" data-validate="Masukan Password">
-						<input class="input100" type="password" name="pass">
-						<span class="focus-input100"></span>
-						<span class="label-input100">Password</span>
-					</div>
-
 					<div class="flex-sb-m w-full p-t-3 p-b-32">
 						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="">
-							<label class="label-checkbox100" for="ckb1">
-								Simpan Password
-							</label>
+							
+							
 						</div>
 
 						<div>
-							<a href="reset.php?no=0" class="txt1">
-								Lupa Password?
+							<a href="index.php" class="txt1">
+								Kembali Login 
 							</a>
 						</div>
 					</div>
@@ -120,14 +93,37 @@ if ($num >=1) {
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn" name="login">
-							Login
+							Tampilkan Sandi
 						</button>
 					</div>
 					
-					
+					<?php 
+
+ 
+  $query = "SELECT * FROM profil"; // Query untuk menampilkan semua data siswa
+  $sql = mysqli_query($connect, $query); // Eksekusi/Jalankan query dari variabel $query
+  
+  while($data = mysqli_fetch_array($sql)){
+   
+
+ $a= $data['user']; 
+  $b= $data['pass'];  
+  $c= $data['token']; 
+
+            }
+$no=$_GET['no'];
+$kunci =$c;
+
+
+if ($no==$kunci) {
+echo "<b>Selamat Token Yang Anda Masukan Benar!</b> <br> Username : $a <br> Password : $b <br> Silahkan ke Halaman Login";
+}else {
+ echo " Masukan Token, Token Dengan Kode : <b> $no </b> tidak dapat ditemukan ";
+}
+?>
 				</form>
 
-				<div class="login100-more" style="background-image: url('images/22.png');">
+				<div class="login100-more" style="background-image: url('images/bg22.png');">
 				</div>
 			</div>
 		</div>
